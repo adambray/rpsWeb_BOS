@@ -2,19 +2,27 @@ import {expect} from 'chai';
 import Rps, {ROCK, PAPER, SCISSORS} from '../src/rps';
 
 class UiSpy {
+  constructor() {
+    this.calls = 0;
+  }
+
   tie() {
+    this.calls++;
     this.tieCalled = true;
   }
 
   p1wins() {
+    this.calls++;
     this.p1winsCalled = true;
   }
 
   p2wins() {
+    this.calls++;
     this.p2winsCalled = true;
   }
 
   invalid() {
+    this.calls++;
     this.invalidCalled = true;
   }
 }
@@ -32,11 +40,13 @@ describe('RPS', () => {
     it('should call .invalid for p1 invalid', function () {
       rps.play('sailboat', ROCK, uiSpy);
       expect(uiSpy.invalidCalled).to.eq(true);
+      expect(uiSpy.calls).to.eq(1);
     });
 
     it('should call .invalid for p2 invalid', function () {
       rps.play(PAPER, 'sailboat', uiSpy);
       expect(uiSpy.invalidCalled).to.eq(true);
+      expect(uiSpy.calls).to.eq(1);
     });
   });
 
@@ -45,6 +55,7 @@ describe('RPS', () => {
       rps.play(ROCK, ROCK, uiSpy);
 
       expect(uiSpy.tieCalled).to.eq(true);
+      expect(uiSpy.calls).to.eq(1);
     });
   });
 
@@ -53,6 +64,7 @@ describe('RPS', () => {
       rps.play(ROCK, SCISSORS, uiSpy);
 
       expect(uiSpy.p1winsCalled).to.eq(true);
+      expect(uiSpy.calls).to.eq(1);
     });
   });
 
@@ -61,6 +73,7 @@ describe('RPS', () => {
       rps.play(SCISSORS, ROCK, uiSpy);
 
       expect(uiSpy.p2winsCalled).to.eq(true);
+      expect(uiSpy.calls).to.eq(1);
     });
   });
 
@@ -69,6 +82,7 @@ describe('RPS', () => {
       rps.play(ROCK, PAPER, uiSpy);
 
       expect(uiSpy.p2winsCalled).to.eq(true);
+      expect(uiSpy.calls).to.eq(1);
     });
   });
 
@@ -85,6 +99,7 @@ describe('RPS', () => {
       rps.play(SCISSORS, PAPER, uiSpy);
 
       expect(uiSpy.p1winsCalled).to.eq(true);
+      expect(uiSpy.calls).to.eq(1);
     });
   });
 
@@ -93,6 +108,7 @@ describe('RPS', () => {
       rps.play(PAPER, SCISSORS, uiSpy);
 
       expect(uiSpy.p2winsCalled).to.eq(true);
+      expect(uiSpy.calls).to.eq(1);
     });
   });
 });

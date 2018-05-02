@@ -12,6 +12,7 @@ export default class Rps {
   play(p1Throw, p2Throw, ui) {
     if (isInvalidThrow(p1Throw) || isInvalidThrow(p2Throw)) {
       ui.invalid();
+      return;
     }
 
     if (p1Throw === p2Throw) {
