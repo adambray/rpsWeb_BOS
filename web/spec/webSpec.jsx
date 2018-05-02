@@ -79,7 +79,7 @@ describe('play form', function () {
     renderApp({play: playSpy});
 
     play('p1 throw', 'p2 throw');
-    whenPageUpdates(() => expect(playSpy).to.have.been.calledWith('p1 throw', 'p2 throw'), done)
+    expect(playSpy).to.have.been.calledWith('p1 throw', 'p2 throw');
   });
 });
 
@@ -131,7 +131,4 @@ function renderApp(useCases) {
   )
 }
 
-function whenPageUpdates(assertion, done) {
-  setTimeout(() => { assertion(); done() }, 20)
-}
 
