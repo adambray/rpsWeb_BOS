@@ -4,6 +4,10 @@ export default class HistoryUsecase {
   }
 
   update(ui) {
-    ui.rounds(this.repo.findAll())
+    const rounds = this.repo.findAll();
+    if (rounds.length)
+      ui.rounds(rounds);
+    else
+      ui.norounds();
   }
 }

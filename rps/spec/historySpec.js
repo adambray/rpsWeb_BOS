@@ -1,8 +1,5 @@
 import HistoryUsecase from '../src/history';
-import {PAPER, ROCK, SCISSORS} from "../src/rps";
-import FakeRoundRepo from "./fakeRoundRepo";
-import Rps from "../src/rps";
-import UiSpy from "./UiSpy";
+import {PAPER, ROCK} from "../src/rps";
 import chai from 'chai';
 import sinonChai from 'sinon-chai';
 import * as sinon from 'sinon';
@@ -14,28 +11,45 @@ chai.use(sinonChai);
 describe('history', () => {
   describe('when rounds have been played', () => {
     it('calls .rounds() on the ui with the rounds that have been played', () => {
-      const repo = new FakeRoundRepo();
-      const rps = new Rps(repo);
-      const history = new HistoryUsecase(repo);
-      const ui = {
-        p1wins: sinon.spy(),
-        p2wins: sinon.spy(),
-        tie: sinon.spy(),
-        invalid: sinon.spy(),
-        rounds: sinon.spy(),
+      const rounds = [
+        new Round(ROCK, PAPER, 'p2'),
+        new Round(PAPER, ROCK, 'p1'),
+      ];
+      const repo = {
+        findAll() {
+          return rounds;
+        }
       };
 
-      rps.play(ROCK, PAPER, ui);
-      rps.play(PAPER, ROCK, ui);
-      rps.play(SCISSORS, ROCK, ui);
+      const history = new HistoryUsecase(repo);
+      const ui = {
+        rounds: sinon.spy(),
+        norounds: sinon.spy(),
+      };
 
       history.update(ui);
 
-      expect(ui.rounds).to.have.been.calledWith([
-        new Round(ROCK, PAPER, 'p2'),
-        new Round(PAPER, ROCK, 'p1'),
-        new Round(SCISSORS, ROCK, 'p2'),
-      ]);
+      expect(ui.rounds).to.have.been.calledWith(rounds);
+      expect(ui.norounds).to.not.have.been.called;
+    });
+  });
+
+  describe('when no rounds have been played', () => {
+    it('calls .rounds() on the ui with the rounds that have been played', () => {
+      const repo = {
+        findAll() {
+          return [];
+        }
+      };
+      const history = new HistoryUsecase(repo);
+      const ui = {
+        norounds: sinon.spy(),
+      };
+
+      history.update(ui);
+
+      expect(ui.norounds).to.have.been.called;
     });
   })
+
 });
