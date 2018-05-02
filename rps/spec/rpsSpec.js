@@ -1,31 +1,6 @@
 import {expect} from 'chai';
 import Rps, {ROCK, PAPER, SCISSORS} from '../src/rps';
-
-class UiSpy {
-  constructor() {
-    this.calls = 0;
-  }
-
-  tie() {
-    this.calls++;
-    this.tieCalled = true;
-  }
-
-  p1wins() {
-    this.calls++;
-    this.p1winsCalled = true;
-  }
-
-  p2wins() {
-    this.calls++;
-    this.p2winsCalled = true;
-  }
-
-  invalid() {
-    this.calls++;
-    this.invalidCalled = true;
-  }
-}
+import UiSpy from "./UiSpy";
 
 describe('RPS', () => {
   let uiSpy;
